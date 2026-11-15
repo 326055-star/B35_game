@@ -216,7 +216,7 @@
         }
 
         function createPiece(typeIndex) {
-            return PIECES[typeIndex];
+            return PIECES[typeIndex].map(row => row.slice());
         }
 
         function getRandomPiece() {
@@ -325,8 +325,8 @@
             if (collide(board, player)) {
                 player.pos.y--;
                 merge(board, player);
-                resetPlayer();
                 arenaSweep();
+                resetPlayer();
             }
             dropCounter = 0;
         }
@@ -337,8 +337,8 @@
             }
             player.pos.y--;
             merge(board, player);
-            resetPlayer();
             arenaSweep();
+            resetPlayer();
             dropCounter = 0;
             
             // 画面を少し揺らすエフェクト
@@ -550,6 +550,9 @@
         // === 入力制御 ===
         document.addEventListener('keydown', event => {
             if (isGameOver) return;
+            if ([37, 38, 39, 40, 32].includes(event.keyCode)) {
+                event.preventDefault();
+            }
             
             switch(event.keyCode) {
                 case 37: // Left
